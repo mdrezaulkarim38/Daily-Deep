@@ -18,15 +18,13 @@ namespace Daily_Deep.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        [Route("/Login")]
+        [HttpGet("Login")]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpGet]
-        [Route("/Register")]
+        [HttpGet("Register")]
         public IActionResult Register()
         {
             return View();
