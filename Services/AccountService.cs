@@ -25,7 +25,7 @@ namespace Daily_Deep.Services
                     command.Parameters.AddWithValue("@FullName", user.FullName);
                     command.Parameters.AddWithValue("@Username", user.Username);
                     command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@Password", user.Password); // Consider hashing the password
+                    command.Parameters.AddWithValue("@Password", user.Password);
 
                     connection.Open();
                     await command.ExecuteNonQueryAsync();
