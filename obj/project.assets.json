@@ -3575,27 +3575,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {}
+    "/home/shuvo/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\OneDrive\\Desktop\\newProject\\Daily-Deep\\Daily-Deep.csproj",
+      "projectUniqueName": "/home/shuvo/Desktop/CSharp/Daily-Deep/Daily-Deep.csproj",
       "projectName": "Daily-Deep",
-      "projectPath": "C:\\Users\\User\\OneDrive\\Desktop\\newProject\\Daily-Deep\\Daily-Deep.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\OneDrive\\Desktop\\newProject\\Daily-Deep\\obj\\",
+      "projectPath": "/home/shuvo/Desktop/CSharp/Daily-Deep/Daily-Deep.csproj",
+      "packagesPath": "/home/shuvo/.nuget/packages/",
+      "outputPath": "/home/shuvo/Desktop/CSharp/Daily-Deep/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/shuvo/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3667,7 +3664,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/248/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
