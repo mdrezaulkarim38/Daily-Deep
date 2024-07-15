@@ -1,4 +1,4 @@
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Threading.Tasks;
 using Daily_Deep.Models;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +17,10 @@ namespace Daily_Deep.Services
 
         public async Task CreateUser(Users user)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 string query = "INSERT INTO Users (FullName, Username, Email, Password) VALUES (@FullName, @Username, @Email, @Password)";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@FullName", user.FullName);
                     command.Parameters.AddWithValue("@Username", user.Username);
@@ -35,15 +35,15 @@ namespace Daily_Deep.Services
 
         public async Task<Users> GetUser(string username)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 string query = "SELECT * FROM Users WHERE Username = @Username";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SQLiteCommand command = new SQLiteCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Username", username);
 
                     connection.Open();
-                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
