@@ -7,16 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add cookie authentication
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.Cookie.Name = "UserLoginCookie";
-        options.LoginPath = "/Auth/Login";
-    });
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
+    options.Cookie.Name = "UserLoginCookie";
+    options.LoginPath = "/Auth/Login";
+});
 
-// Register the AccountService with the DI container
-builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
@@ -31,8 +28,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-// Add authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
 
