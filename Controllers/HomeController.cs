@@ -1,9 +1,10 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Daily_Deep.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Daily_Deep.Controllers;
-
+[Authorize]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
@@ -15,6 +16,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        var fullName = User.FindFirst("FullName")?.Value;
+        ViewBag.FullName = fullName;
         return View();
     }
 
