@@ -5,11 +5,10 @@ public class Users
 {
     [Key]
     public int Id { get; set; }
-
     [Required]
     [Display(Name = "Full Name")]
-    [StringLength(100, ErrorMessage = "Full Name cannot be longer than 100 characters.")]
-    public string? FullName { get; set; }
+    [StringLength(100, ErrorMessage = "Full Name Cannot be Longer than 100 characters.")]
+    public string? FullName { get; set; }  
 
     [Required]
     [Display(Name = "Username")]
