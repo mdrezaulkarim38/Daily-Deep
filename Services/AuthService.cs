@@ -9,7 +9,7 @@ public class AuthService : IAuthService
 
     public AuthService(IConfiguration configuration)
     {
-        _connectionString = configuration.GetConnectionString("DefaultConnection");
+        _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
 
     public async Task CreateUser(Users user)
@@ -57,6 +57,6 @@ public class AuthService : IAuthService
             }
         }
 
-        return null;
+        return null!;
     }
 }
