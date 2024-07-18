@@ -32,3 +32,12 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            if (!@Html.ViewData.ModelState.IsValid) {
+                toastr.error("Invalid login attempt.");       
+            }
+        });
+    </script>
+}
