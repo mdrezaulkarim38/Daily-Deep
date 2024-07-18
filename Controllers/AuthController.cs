@@ -33,7 +33,7 @@ public class AuthController : Controller
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username!),
-                    new Claim("FullName", user.FullName!)
+                    new Claim("FullName", user.FullName!),
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
