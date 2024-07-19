@@ -30,7 +30,7 @@ public class AccountController : Controller
     [HttpGet("Category")]
     public IActionResult Category()
     {
-        
+
         return View();
     }
     [HttpPost("Category")]
@@ -46,6 +46,16 @@ public class AccountController : Controller
         return View(category);
     }
 
+    [HttpGet("Transaction")]
+    public IActionResult Transaction()
+    {
+        return View();
+    }
+    [HttpGet("Report")]
+    public IActionResult Report()
+    {
+        return View();
+    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
