@@ -13,13 +13,13 @@ namespace Daily_Deep.Controllers;
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
-    //private readonly IAccountService _accountService;
-    public AccountController (ILogger<AccountController> logger)
+    private readonly IAccountService _accountService;
+    public AccountController (ILogger<AccountController> logger, IAccountService accountService)
     {
         _logger = logger;
-        //_accountService = accountService;
+        _accountService = accountService;
     }
-    [HttpGet("Index")]
+    [HttpGet]
     public IActionResult Index()
     {
         var fullName = User.FindFirst("FullName")?.Value;
@@ -32,6 +32,19 @@ public class AccountController : Controller
     {
         return View();
     }
+    [HttpPost("Category")]
+    public async Task<IActionResult> Category(Category category)
+    {
+        var userId = User.FindFirst("Id")!.Value;
+        category.UserId = Convert.ToInt32(userId);
+        if(ModelState.IsValid)
+        {
+            await _accountService.CreateCategory(category);
+            return View();
+        }
+        return View(category);
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
