@@ -1,7 +1,39 @@
+@model Daily_Deep.Models.Category;
 @{
     ViewData["Title"] = "Category Page";
 }
 
 <div class="text-center">
-<h1>Category Title page</h1>
+    <h1>Category Page</h1>
 </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-center">Create Category</h3>
+            <div>
+                <form method="post" asp-controller="Account" asp-action="Category">
+                        <div class="form-group mb-3">
+                            <label asp-for="CategoryName"></label>
+                            <input asp-for="CategoryName" class="form-control" />
+                            <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="CategoryCode"></label>
+                            <input asp-for="CategoryCode" class="form-control" />
+                            <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <button type="submit" class="btn btn-primary">Create Category</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+        <div class="col-md-6 text-center">
+            <h3>Category List</h3>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

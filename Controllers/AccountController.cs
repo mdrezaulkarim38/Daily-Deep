@@ -35,7 +35,7 @@ public class AccountController : Controller
     [HttpPost("Category")]
     public async Task<IActionResult> Category(Category category)
     {
-        var userId = User.FindFirst("Id")!.Value;
+        var userId = 1; //User.FindFirst("Id")!.Value;
         category.UserId = Convert.ToInt32(userId);
         if(ModelState.IsValid)
         {
