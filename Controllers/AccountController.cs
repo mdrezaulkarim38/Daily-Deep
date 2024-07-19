@@ -30,6 +30,7 @@ public class AccountController : Controller
     [HttpGet("Category")]
     public IActionResult Category()
     {
+        
         return View();
     }
     [HttpPost("Category")]

@@ -13,8 +13,7 @@ public class Category
     [Required]
     [Display(Name = "Category Code")]
     public int? CategoryCode { get; set; }
-
-    [Required]
+    
     [Display(Name = "User Id")]
     public int? UserId { get; set; }
 }

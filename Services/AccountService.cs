@@ -27,4 +27,31 @@ public class AccountService : IAccountService
             }
         }
     }
+
+    public async Task<Category> GetCategory()
+    {
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            string query = "SELECT * FROM Category WHERE UserId = @UserId";
+            using(SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserId", 1);
+                connection.Open();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if(await reader.ReadAsync())
+                    {
+                        return new Category
+                        {
+                            Id=reader.GetInt32(0),
+                            CategoryName = reader.GetString(1),
+                            CategoryCode = reader.GetInt32(2),
+                            UserId = reader.GetInt32(3)
+                        };
+                    }
+                }
+            }
+        }
+        return null!;
+    }
 }
