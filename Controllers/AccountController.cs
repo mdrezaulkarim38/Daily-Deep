@@ -4,20 +4,22 @@ using Daily_Deep.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Daily_Deep.Controllers;
 
+[Authorize]
 [Route("[controller]")]
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
-    private readonly IAccountService _accountService;
-    public AccountController (ILogger<AccountController> logger, IAccountService accountService)
+    //private readonly IAccountService _accountService;
+    public AccountController (ILogger<AccountController> logger)
     {
         _logger = logger;
-        _accountService = accountService;
+        //_accountService = accountService;
     }
-    [HttpGet]
+    [HttpGet("Index")]
     public IActionResult Index()
     {
         var fullName = User.FindFirst("FullName")?.Value;
@@ -25,6 +27,11 @@ public class AccountController : Controller
         return View();
     }
 
+    [HttpGet("Category")]
+    public IActionResult Category()
+    {
+        return View();
+    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
