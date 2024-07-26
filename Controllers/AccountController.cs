@@ -59,6 +59,7 @@ public class AccountController : Controller
     [HttpGet("Report")]
     public IActionResult Report()
     {
+        var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
         return View();
     }
 
