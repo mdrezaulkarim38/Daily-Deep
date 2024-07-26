@@ -53,6 +53,8 @@ public class AccountController : Controller
     [HttpGet("Transaction")]
     public IActionResult Transaction()
     {
+        var fullName = User.FindFirst("FullName")?.Value;
+        ViewBag.FullName = fullName;
         return View();
     }
 
