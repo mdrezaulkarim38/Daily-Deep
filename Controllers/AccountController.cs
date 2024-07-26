@@ -3,6 +3,7 @@ using Daily_Deep.Models;
 using Daily_Deep.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Transactions;
 
 namespace Daily_Deep.Controllers;
 
@@ -55,6 +56,13 @@ public class AccountController : Controller
     {
         var fullName = User.FindFirst("FullName")?.Value;
         ViewBag.FullName = fullName;
+        return View();
+    }
+
+    [HttpPost("Transaction")]
+    public async Task<IActionResult> Transaction(TransactionData transactionData)
+    {
+        var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
         return View();
     }
 

@@ -9,7 +9,21 @@
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <h2>This is inside of the container</h2>
+            <form method="post" asp-controller="Account" asp-action="Category">
+                <div class="form-group mb-3">
+                    <label asp-for="CategoryName"></label>
+                    <input asp-for="CategoryName" class="form-control" />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <label asp-for="CategoryCode"></label>
+                    <input asp-for="CategoryCode" class="form-control" />
+                    <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
+                    <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
