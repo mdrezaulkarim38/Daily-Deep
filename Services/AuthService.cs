@@ -27,6 +27,7 @@ public class AuthService : IAuthService
                 connection.Open();
                 await command.ExecuteNonQueryAsync();
             }
+            connection.Close();
         }
     }
 
@@ -55,6 +56,7 @@ public class AuthService : IAuthService
                     }
                 }
             }
+            connection.Close();
         }
 
         return null!;

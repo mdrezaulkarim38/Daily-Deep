@@ -1,0 +1,22 @@
+@model IEnumerable<Daily_Deep.Models.Category>
+
+<h3 class="text-center">Category List</h3>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Category Name</th>
+                <th>Category Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.CategoryName</td>
+                    <td>@category.CategoryCode</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,5 +1,6 @@
-@model Daily_Deep.Models.Category;
+@model Daily_Deep.Models.Category
 @{
+    var categories = ViewBag.Categories as IEnumerable<Daily_Deep.Models.Category>;
     ViewData["Title"] = "Category Page";
 }
 
@@ -9,39 +10,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h3 class="text-center">Create Category</h3>
-            <div>
-                <form method="post" asp-controller="Account" asp-action="Category">
-                        <div class="form-group mb-3">
-                            <label asp-for="CategoryName"></label>
-                            <input asp-for="CategoryName" class="form-control" />
-                            <span asp-validation-for="CategoryName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label asp-for="CategoryCode"></label>
-                            <input asp-for="CategoryCode" class="form-control" />
-                            <span asp-validation-for="CategoryCode" class="text-danger"></span>
-                        </div>
-                        <div class="form-group mb-3">
-                            <button type="submit" class="btn btn-primary">Create Category</button>
-                        </div>
-                    </form>
-            </div>
+            @await Html.PartialAsync("_CreateCategory", Model)
         </div>
         <div class="col-md-6 text-center">
-            <h3>Category List</h3>
-            <div>
-                <table>
-                    <tr>
-                        <th>Category Name</th>
-                        <th>Category Code</th>
-                    </tr>
-                    <tr>
-                        <td>First Category</td>
-                        <td>1234</td>
-                    </tr>
-                </table>
-            </div>
+            @await Html.PartialAsync("_CategoryList", categories)
         </div>
     </div>
 </div>

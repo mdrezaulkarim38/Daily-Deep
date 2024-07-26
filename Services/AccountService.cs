@@ -10,13 +10,13 @@ public class AccountService : IAccountService
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
-
+    
     public async Task CreateCategory(Category category)
     {
         using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
         {
             string query = "INSERT INTO Category (CategoryName, CategoryCode, UserId) VALUES (@CategoryName, @CategoryCode, @UserId)";
-            using(SQLiteCommand command = new SQLiteCommand(query, connection))
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryCode", category.CategoryCode);
@@ -28,30 +28,35 @@ public class AccountService : IAccountService
         }
     }
 
-    public async Task<Category> GetCategory()
+
+
+
+    public async Task<List<Category>> GetCategories(int userId)
     {
+        var categories = new List<Category>();
         using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
         {
             string query = "SELECT * FROM Category WHERE UserId = @UserId";
-            using(SQLiteCommand command = new SQLiteCommand(query, connection))
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
-                command.Parameters.AddWithValue("@UserId", 1);
+                command.Parameters.AddWithValue("@UserId", userId);
                 connection.Open();
                 using (var reader = await command.ExecuteReaderAsync())
                 {
-                    if(await reader.ReadAsync())
+                    while (await reader.ReadAsync())
                     {
-                        return new Category
-                        {
-                            Id=reader.GetInt32(0),
-                            CategoryName = reader.GetString(1),
-                            CategoryCode = reader.GetInt32(2),
-                            UserId = reader.GetInt32(3)
-                        };
+                        var category = new Category();
+                        category.Id = reader.GetInt32(0);
+                        category.CategoryName = reader.GetString(1);
+                        category.CategoryCode = reader.GetString(2);
+                        category.UserId = reader.GetInt32(3);
+
+                        categories.Add(category);
                     }
+                    reader.Close();
                 }
             }
         }
-        return null!;
+        return categories;
     }
 }
