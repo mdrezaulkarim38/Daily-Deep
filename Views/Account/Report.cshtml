@@ -1,3 +1,4 @@
+@model IEnumerable<Daily_Deep.Models.TransactionData>
 @{
     ViewData["Title"] = "Report Page";
 }
@@ -8,47 +9,69 @@
 
 <div class="container">
     <div class="row">
-        <label>From Date: </label>
-        <input type="date" class="form-control" />
-        <lable>To Date: </lable>
-        <input type="date" class="form-control" />
-        <lable>Type</lable>
-        <select>
-            <option>select</option>
-            <option>Income</option>
-            <option>Expence</option>
-        </select>
-        <button type="submit">Search</button>
+        <form method="post" asp-action="Report">
+            <label>From Date: </label>
+            <input type="date" class="form-control" name="fromDate" />
+            <lable>To Date: </lable>
+            <input type="date" class="form-control" name="toDate" />
+            <lable>Type</lable>
+            <select name="transactionType">
+                <option value="">select</option>
+                <option value="Income">Income</option>
+                <option value="Expense">Expence</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
     </div>
 </div>
 
 <div class="container">
     <div>
         <table>
-            <tr>
-                <th>SL</th>
-                <th>Transection Type</th>
-                <th>Desction</th>
-                <th>Date</th>
-                <th>Income</th>
-                <th>Expence</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Income</td>
-                <td>This is coming from salary</td>
-                <td>01/01/2024</td>
-                <td>500.00</td>
-                <td>0.00</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Expence</td>
-                <td>This is for martket</td>
-                <td>02/01/2024</td>
-                <td>0.00</td>
-                <td>500.00</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Category</th>
+                    <th>Transaction Type</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    int count = 0;
+                    foreach (var item in Model)
+                    {
+                        count++;
+                        <tr>
+                            <td>@count</td>
+                            <td>@item.CategoryCode</td>
+                            <td class="text-capitalize">@item.TransactionType</td>
+                            <td>@item.Description</td>
+                            <td>@item.TransactionDate.ToShortDateString()</td>
+                            @if(@item.TransactionType == "income"){
+                                <td>@item.Amount</td>
+                            }else{
+                                <td>0.00</td>
+                            }
+                            @if(@item.TransactionType == "expense"){
+                                <td>@item.Amount</td>
+                            }else{
+                                <td>0.00</td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">No transactions found.</td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>

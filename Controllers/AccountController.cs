@@ -100,10 +100,11 @@ public class AccountController : Controller
 
 
     [HttpGet("Report")]
-    public IActionResult Report()
+    public async Task<IActionResult> Report()
     {
         var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
-        return View();
+        var transactionData = await _accountService.GetTransactions(userId);
+        return View(transactionData);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

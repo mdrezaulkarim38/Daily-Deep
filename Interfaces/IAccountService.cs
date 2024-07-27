@@ -6,4 +6,5 @@ public interface IAccountService
     Task CreateCategory(Category category);
     Task<List<Category>> GetCategories(int userId);
     Task CreateTransaction(TransactionData transactionData);
+    Task<List<TransactionData>> GetTransactions(int userId);
 }

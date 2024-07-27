@@ -86,4 +86,32 @@ public class AccountService : IAccountService
         }
     }
 
+    public async Task<List<TransactionData>> GetTransactions(int userId)
+    {
+        var transactionData = new List<TransactionData>();
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            string query = "SELECT TransactionDate,(SELECT Category.CategoryName FROM Category WHERE Category.CategoryCode = Transactions.CategoryCode) as CategoryCode, TransactionType, Description, Amount  FROM Transactions WHERE UserId = @UserId";
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserId", userId);
+                connection.Open();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var transaction = new TransactionData();
+                        transaction.TransactionDate = reader.GetDateTime(0);
+                        transaction.CategoryCode = reader.GetString(1);
+                        transaction.TransactionType = reader.GetString(2);
+                        transaction.Description = reader.GetString(3);
+                        transaction.Amount = reader.GetDecimal(4);
+                        transactionData.Add(transaction);
+                    }
+                }
+            }
+        }
+        return transactionData;
+    }
+
 }
