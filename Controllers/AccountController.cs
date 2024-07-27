@@ -59,12 +59,12 @@ public class AccountController : Controller
         return View();
     }
 
-    [HttpPost("Transaction")]
+    /* [HttpPost("Transaction")]
     public async Task<IActionResult> Transaction(TransactionData transactionData)
     {
         var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
         return View();
-    }
+    } */
 
     [HttpGet("Report")]
     public IActionResult Report()

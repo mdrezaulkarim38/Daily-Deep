@@ -1,3 +1,5 @@
+@model Daily_Deep.Models.TransactionData
+
 @{
     ViewData["Title"] = "Transaction Page";
 }
@@ -9,20 +11,31 @@
 <div class="container">
     <div class="row">
         <div class="col-md">
-            <form method="post" asp-controller="Account" asp-action="Category">
-                <div class="form-group mb-3">
-                    <label asp-for="CategoryName"></label>
-                    <input asp-for="CategoryName" class="form-control" />
-                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+            <form method="post" asp-controller="Account" asp-action="CreateTransaction"> <div class="mb-3">
+                    <label asp-for="TransactionDate" class="form-label">Date</label>
+                    <input type="date" asp-for="TransactionDate" class="form-control" />
                 </div>
-                <div class="form-group mb-3">
-                    <label asp-for="CategoryCode"></label>
-                    <input asp-for="CategoryCode" class="form-control" />
-                    <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                <div class="mb-3">
+                    <label asp-for="CategoryId" class="form-label">Category</label>
+                    <select asp-for="CategoryId" class="form-select">
+                        </select>
                 </div>
-                <div class="form-group mb-3">
-                    <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                <div class="mb-3">
+                    <label asp-for="TransactionType" class="form-label">Transaction Type</label>
+                    <select asp-for="TransactionType" class="form-select">
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
                 </div>
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Amount" class="form-label">Amount</label>
+                    <input type="number" asp-for="Amount" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

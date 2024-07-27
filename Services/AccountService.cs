@@ -10,17 +10,20 @@ public class AccountService : IAccountService
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection")!;
     }
-    
+
     public async Task CreateCategory(Category category)
     {
         using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
         {
-            string query = "INSERT INTO Category (CategoryName, CategoryCode, UserId) VALUES (@CategoryName, @CategoryCode, @UserId)";
+            string query = @"INSERT INTO Category (CategoryName, CategoryCode, UserId, CreatedAt, UpdatedAt) VALUES (@CategoryName, @CategoryCode, @UserId, @CreatedAt, @UpdatedAt)";
             using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                 command.Parameters.AddWithValue("@CategoryCode", category.CategoryCode);
                 command.Parameters.AddWithValue("@UserId", category.UserId);
+                var nowUtc = DateTime.UtcNow;
+                command.Parameters.AddWithValue("@CreatedAt", nowUtc);
+                command.Parameters.AddWithValue("@UpdatedAt", nowUtc);
 
                 connection.Open();
                 await command.ExecuteNonQueryAsync();
