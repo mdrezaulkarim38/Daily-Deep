@@ -1,9 +1,9 @@
-using System.Security.Claims;
 using Daily_Deep.Models;
 using Daily_Deep.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Transactions;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Daily_Deep.ViewModel;
 
 namespace Daily_Deep.Controllers;
 
@@ -52,12 +52,23 @@ public class AccountController : Controller
     }
 
     [HttpGet("Transaction")]
-    public IActionResult Transaction()
+    public async Task<IActionResult> Transaction()
     {
         var fullName = User.FindFirst("FullName")?.Value;
         ViewBag.FullName = fullName;
-        return View();
+        var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+        var categories = await _accountService.GetCategories(userId);
+        var selectList = new SelectList(categories, "CategoryCode", "CategoryName");
+
+        var viewModel = new TransactionViewModel
+        {
+            CategorySelectList = selectList
+        };
+
+        ViewData["selectList"] = selectList;
+        return View(viewModel);
     }
+
 
     /* [HttpPost("Transaction")]
     public async Task<IActionResult> Transaction(TransactionData transactionData)
