@@ -56,10 +56,34 @@ public class AccountService : IAccountService
 
                         categories.Add(category);
                     }
-                    reader.Close();
                 }
             }
         }
         return categories;
     }
+
+
+    public async Task CreateTransaction(TransactionData transactionData)
+    {
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            string query = @"INSERT INTO Transactions (TransactionDate, CategoryCode, TransactionType, Description, Amount, UserId, CreatedAt, UpdatedAt) VALUES (@TransactionDate, @CategoryCode, @TransactionType, @Description, @Amount, @UserId, @CreatedAt, @UpdatedAt)";
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@TransactionDate", transactionData.TransactionDate);
+                command.Parameters.AddWithValue("@CategoryCode", transactionData.CategoryCode);
+                command.Parameters.AddWithValue("@TransactionType", transactionData.TransactionType);
+                command.Parameters.AddWithValue("@Description", transactionData.Description);
+                command.Parameters.AddWithValue("@Amount", transactionData.Amount);
+                command.Parameters.AddWithValue("@UserId", transactionData.UserId);
+                var nowUtc = DateTime.UtcNow;
+                command.Parameters.AddWithValue("@CreatedAt", nowUtc);
+                command.Parameters.AddWithValue("@UpdatedAt", nowUtc);
+
+                connection.Open();
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+    }
+
 }
