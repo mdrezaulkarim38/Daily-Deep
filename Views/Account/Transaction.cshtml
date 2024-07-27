@@ -21,9 +21,12 @@
                 <div class="mb-3">
                     <label for="categorySelect" class="form-label">Category</label>
                     <select asp-for="CategoryCode" class="form-select" id="categorySelect">
-                        @foreach (var item in selectList)
+                        @if (selectList != null)
                         {
-                            <option value="@item.Value">@item.Text</option>
+                            @foreach (var item in selectList)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
                         }
                     </select>
                     <span asp-validation-for="CategoryCode" class="text-danger"></span>

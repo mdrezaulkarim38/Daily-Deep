@@ -26,5 +26,5 @@ public class TransactionViewModel
 
     public int UserId { get; set; }
 
-    public SelectList CategorySelectList { get; set; }
+    public SelectList CategorySelectList { get; set; } = new SelectList(Enumerable.Empty<SelectListItem>());
 }
