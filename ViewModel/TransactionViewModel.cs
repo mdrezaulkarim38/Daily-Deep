@@ -7,6 +7,12 @@ namespace Daily_Deep.ViewModel;
 
 public class TransactionViewModel
 {
+    public TransactionViewModel()
+    {
+        TransactionDate = DateTime.Today; // Set default date to today
+        CategorySelectList = new SelectList(Enumerable.Empty<SelectListItem>());
+    }
+    
     [Required]
     [DataType(DataType.Date)]
     public DateTime TransactionDate { get; set; }
