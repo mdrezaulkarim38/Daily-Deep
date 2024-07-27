@@ -70,12 +70,34 @@ public class AccountController : Controller
     }
 
 
-    /* [HttpPost("Transaction")]
-    public async Task<IActionResult> Transaction(TransactionData transactionData)
+    [HttpPost("Transaction")]
+    public async Task<IActionResult> Transaction(TransactionViewModel model)
     {
-        var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
-        return View();
-    } */
+        if (ModelState.IsValid)
+        {
+            var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
+
+            var transactionData = new TransactionData
+            {
+                TransactionDate = model.TransactionDate,
+                CategoryCode = model.CategoryCode,
+                TransactionType = model.TransactionType,
+                Description = model.Description,
+                Amount = model.Amount,
+                UserId = userId
+            };
+
+            await _accountService.CreateTransaction(transactionData);
+            return RedirectToAction("Transaction");
+        }
+
+        var categories = await _accountService.GetCategories(Convert.ToInt32(User.FindFirst("UserId")?.Value));
+        model.CategorySelectList = new SelectList(categories, "CategoryCode", "CategoryName");
+        ViewData["selectList"] = model.CategorySelectList;
+
+        return View(model);
+    }
+
 
     [HttpGet("Report")]
     public IActionResult Report()
