@@ -58,7 +58,7 @@
                             <td class="text-capitalize">@item.TransactionType</td>
                             <td>@item.Description</td>
                             <td>@item.TransactionDate.ToShortDateString()</td>
-                            @if(@item.TransactionType == "Income")
+                            @if(@item.TransactionType == "income")
                             {
                                 <td>@item.Amount.ToString("C")</td>
                                 <td>0.00</td>
