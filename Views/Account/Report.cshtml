@@ -3,44 +3,50 @@
     ViewData["Title"] = "Report Page";
 }
 
-<div class="text-center">
-    <h1>This is Report Area @ViewBag.FullName</h1>
-</div>
-
-<div class="container">
-    <div class="row">
-        <form method="post" asp-action="Report">
-            <label>From Date: </label>
-            <input type="date" class="form-control" name="fromDate" />
-            <lable>To Date: </lable>
-            <input type="date" class="form-control" name="toDate" />
-            <lable>Type</lable>
-            <select name="transactionType">
-                <option value="">select</option>
-                <option value="Income">Income</option>
-                <option value="Expense">Expence</option>
-            </select>
-            <button type="submit">Search</button>
-        </form>
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1>@ViewBag.FullName, Report of Daily Transactions</h1>
     </div>
-</div>
 
-<div class="container">
-    <div>
-        <table>
-            <thead>
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-10">
+            <form method="post" asp-action="Report" class="form-inline">
+                <div class="form-group mx-2 mb-2">
+                    <label for="fromDate" class="sr-only">From Date</label>
+                    <input type="date" class="form-control form-control-sm" name="fromDate" placeholder="From Date" />
+                </div>
+                <div class="form-group mx-2 mb-2">
+                    <label for="toDate" class="sr-only">To Date</label>
+                    <input type="date" class="form-control form-control-sm" name="toDate" placeholder="To Date" />
+                </div>
+                <div class="form-group mx-2 mb-2">
+                    <label for="transactionType" class="sr-only">Type</label>
+                    <select name="transactionType" class="form-control form-control-sm">
+                        <option value="">Select Type</option>
+                        <option value="Income">Income</option>
+                        <option value="Expense">Expense</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm mb-2">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
                 <tr>
-                    <th>SL</th>
-                    <th>Category</th>
-                    <th>Transaction Type</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                    <th>Income</th>
-                    <th>Expense</th>
+                    <th scope="col">SL</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Transaction Type</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Income</th>
+                    <th scope="col">Expense</th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null)
+                @if (Model != null && Model.Any())
                 {
                     int count = 0;
                     foreach (var item in Model)
@@ -52,15 +58,15 @@
                             <td class="text-capitalize">@item.TransactionType</td>
                             <td>@item.Description</td>
                             <td>@item.TransactionDate.ToShortDateString()</td>
-                            @if(@item.TransactionType == "income"){
-                                <td>@item.Amount</td>
-                            }else{
+                            @if(@item.TransactionType == "Income")
+                            {
+                                <td>@item.Amount.ToString("C")</td>
                                 <td>0.00</td>
                             }
-                            @if(@item.TransactionType == "expense"){
-                                <td>@item.Amount</td>
-                            }else{
+                            else
+                            {
                                 <td>0.00</td>
+                                <td>@item.Amount.ToString("C")</td>
                             }
                         </tr>
                     }
@@ -68,7 +74,7 @@
                 else
                 {
                     <tr>
-                        <td colspan="6">No transactions found.</td>
+                        <td colspan="7" class="text-center">No transactions found.</td>
                     </tr>
                 }
             </tbody>
