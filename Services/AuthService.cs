@@ -16,7 +16,7 @@ public class AuthService : IAuthService
     {
         using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
         {
-            string query = @"INSERT INTO Users (FullName, Username, Email, Password, CreatedAt, UpdatedAt) VALUES (@FullName, @Username, @Email, @Password, @CreatedAt, @UpdatedAt)";
+            string query = @"INSERT INTO Users (FullName, Username, Email, Password, createdAt, updatedAt) VALUES (@FullName, @Username, @Email, @Password, @CreatedAt, @UpdatedAt)";
             using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@FullName", user.FullName);
