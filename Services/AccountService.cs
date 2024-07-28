@@ -114,4 +114,80 @@ public class AccountService : IAccountService
         return transactionData;
     }
 
+    public async Task<Category> GetCategoryById(int id, int userId)
+    {
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            string query = "SELECT * FROM Category WHERE Id = @Id AND UserId = @userId";
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@userId", userId);
+                connection.Open();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        return new Category
+                        {
+                            Id = reader.GetInt32(0),
+                            CategoryName = reader.GetString(1),
+                            CategoryCode = reader.GetString(2),
+                            UserId = reader.GetInt32(3)
+                        };
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public async Task UpdateCategory(Category category)
+    {
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            string query = @"UPDATE Category SET CategoryName = @CategoryName, UpdatedAt = @UpdatedAt WHERE Id = @Id AND UserId = @userId";
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                command.Parameters.AddWithValue("@UpdatedAt", DateTime.UtcNow);
+                command.Parameters.AddWithValue("@Id", category.Id);
+                command.Parameters.AddWithValue("@userId", category.UserId);
+                connection.Open();
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+    }
+
+    public async Task<bool> CanDeleteCategory(int categoryId, int userId)
+    {
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            string query = "SELECT COUNT(*) FROM Transactions WHERE Transactions.CategoryCode = (SELECT CategoryCode FROM Category WHERE Id = @Id AND Category.UserId = @userId) AND Transactions.UserId = @userId";
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", categoryId);
+                command.Parameters.AddWithValue("@userId", userId);
+                connection.Open();
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result) == 0;
+            }
+        }
+    }
+
+    public async Task DeleteCategory(int id, int userId)
+    {
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            string query = "DELETE FROM Category WHERE Id = @Id and UserId = @userId ";
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@userId", userId);
+                connection.Open();
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+    }
+
 }
