@@ -20,6 +20,10 @@ public class AuthController : Controller
     [HttpGet("Login")]
     public IActionResult Login()
     {
+        if(User.FindFirst("FullName")?.Value != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
         return View();
     }
     [HttpPost("Login")]
@@ -48,6 +52,10 @@ public class AuthController : Controller
     [HttpGet("Register")]
     public IActionResult Register()
     {
+        if(User.FindFirst("FullName")?.Value != null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
         return View();
     }
     [HttpPost("Register")]
