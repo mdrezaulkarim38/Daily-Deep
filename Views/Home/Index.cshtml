@@ -2,8 +2,76 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<!-- Custom CSS -->
+<style>
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        font-size: 1.2rem;
+    }
+    .card-body {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .header-section {
+        margin-bottom: 2rem;
+    }
+    .container {
+        margin-top: 2rem;
+    }
+    .instructions {
+        margin-top: 2rem;
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .instructions h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    .instructions p {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div class="text-center header-section">
     <h1 class="display-4">Welcome To Daily Deep @ViewBag.FullName!</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>Taking to the Next Level We need to make it Service based</p>
+    <p class="lead">Here you can manage your daily income and expense.</p>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-header fw-bold text-white bg-success">
+                    Income
+                </div>
+                <div class="card-body">
+                    <p>Taka: $0.00</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card text-center">
+                <div class="card-header fw-bold bg-danger text-white">
+                    Expense
+                </div>
+                <div class="card-body">
+                    <p>Taka: $0.00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <h2>How to Use the Software:</h2>
+        <p>1. First, you need to create a category. For that, go to the <strong>Category</strong> page, which is in the <strong>Account</strong> menu under the <strong>Category</strong> sub-menu.</p>
+        <p>2. To create an entry for an income or expense transaction, go to the <strong>Transaction</strong> sub-menu in the <strong>Account</strong> menu.</p>
+        <p>3. Enter the date of the transaction, select the category, choose <strong>Income</strong> or <strong>Expense</strong>, provide a detailed description, enter the amount, and then submit.</p>
+        <p>4. To view all your transactions, go to the <strong>Report</strong> sub-menu in the <strong>Account</strong> menu. You can filter the data by date range or by income/expense type, then click search.</p>
+    </div>
 </div>
