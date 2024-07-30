@@ -1,0 +1,23 @@
+@model Daily_Deep.Models.Category
+@{
+    var categories = ViewBag.Categories as IEnumerable<Daily_Deep.Models.Category>;
+    ViewData["Title"] = "Category Page";
+}
+
+<div class="text-center">
+    <h1>Category Page</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            @await Html.PartialAsync("_CreateCategory", Model)
+        </div>
+        <div class="col-md-6 text-center">
+            @await Html.PartialAsync("_CategoryList", categories)
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

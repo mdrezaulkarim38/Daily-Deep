@@ -1,0 +1,66 @@
+@model Daily_Deep.ViewModel.TransactionViewModel
+
+@{
+    ViewData["Title"] = "Transaction Page";
+    var selectList = ViewData["selectList"] as SelectList;
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1>@ViewBag.FullName, Enter Your Daily Transaction</h1>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="post" asp-controller="Account" asp-action="Transaction">
+                        <div class="mb-3">
+                            <label asp-for="TransactionDate" class="form-label">Date</label>
+                            <input type="date" asp-for="TransactionDate" class="form-control" />
+                            <span asp-validation-for="TransactionDate" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categorySelect" class="form-label">Category</label>
+                            <select asp-for="CategoryCode" class="form-select" id="categorySelect">
+                                @if (selectList != null)
+                                {
+                                    @foreach (var item in selectList)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryCode" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="TransactionType" class="form-label">Transaction Type</label>
+                            <select asp-for="TransactionType" class="form-select">
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
+                            </select>
+                            <span asp-validation-for="TransactionType" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Amount" class="form-label">Amount</label>
+                            <input type="number" asp-for="Amount" class="form-control" />
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

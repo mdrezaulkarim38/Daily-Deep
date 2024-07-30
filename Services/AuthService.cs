@@ -16,13 +16,16 @@ public class AuthService : IAuthService
     {
         using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
         {
-            string query = "INSERT INTO Users (FullName, Username, Email, Password) VALUES (@FullName, @Username, @Email, @Password)";
+            string query = @"INSERT INTO Users (FullName, Username, Email, Password, createdAt, updatedAt) VALUES (@FullName, @Username, @Email, @Password, @CreatedAt, @UpdatedAt)";
             using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@FullName", user.FullName);
                 command.Parameters.AddWithValue("@Username", user.Username);
                 command.Parameters.AddWithValue("@Email", user.Email);
                 command.Parameters.AddWithValue("@Password", user.Password);
+                var nowUtc = DateTime.UtcNow;
+                command.Parameters.AddWithValue("@CreatedAt", nowUtc);
+                command.Parameters.AddWithValue("@UpdatedAt", nowUtc);
 
                 connection.Open();
                 await command.ExecuteNonQueryAsync();
@@ -55,6 +58,7 @@ public class AuthService : IAuthService
                     }
                 }
             }
+            connection.Close();
         }
 
         return null!;
