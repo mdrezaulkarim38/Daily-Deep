@@ -139,7 +139,7 @@ public class AccountService : IAccountService
                 }
             }
         }
-        return null;
+        return null!;
     }
 
     public async Task UpdateCategory(Category category)
