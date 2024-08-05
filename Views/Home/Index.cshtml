@@ -67,9 +67,16 @@
         </div>
         <div class="col-md-4 mb-4">
             <div class="card text-center">
-                <div class="card-header fw-bold bg-danger text-white">
-                    Balance
-                </div>
+                @if(@ViewBag.Balance < 0){
+                    <div class="card-header fw-bold bg-info text-white">
+                        Balance
+                    </div>
+                }else{
+                    <div class="card-header fw-bold bg-primary text-white">
+                        Balance
+                    </div>
+                }
+                
                 <div class="card-body">
                     <p>Taka: $@ViewBag.Balance</p>
                 </div>
