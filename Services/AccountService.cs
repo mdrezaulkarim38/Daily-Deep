@@ -31,9 +31,6 @@ public class AccountService : IAccountService
         }
     }
 
-
-
-
     public async Task<List<Category>> GetCategories(int userId)
     {
         var categories = new List<Category>();
