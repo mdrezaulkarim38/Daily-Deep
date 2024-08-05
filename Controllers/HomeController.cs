@@ -17,15 +17,20 @@ public class HomeController : Controller
         _homeService = homeService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var fullName = User.FindFirst("FullName")?.Value;
         ViewBag.FullName = fullName;
+        
         var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
-        var Income = _homeService.GetTransactionByType("income", userId);
-        ViewBag.Income = Income;
-        var Expense = _homeService.GetTransactionByType("expense", userId);
-        ViewBag.Expense = Expense;
+        
+        var income = await _homeService.GetTransactionByType("income", userId);
+        ViewBag.Income = income;
+        
+        var expense = await _homeService.GetTransactionByType("expense", userId);
+        ViewBag.Expense = expense;
+        var balance = income - expense;
+        ViewBag.Balance = balance;
         return View();
     }
 
