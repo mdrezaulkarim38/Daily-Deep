@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Daily_Deep</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Daily_Deep.styles.css" asp-append-version="true" />
     <link href="~/css/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <style>
     .bg-lightblue {
@@ -102,8 +101,32 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/toastr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <text>
+                    toastr.success("@TempData["SuccessMessage"]");
+                </text>
+            }
+            
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <text>
+                    toastr.error("@TempData["ErrorMessage"]");
+                </text>
+            }
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <text>
+                    toastr.error("Invalid login attempt.");
+                </text>
+            }
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
