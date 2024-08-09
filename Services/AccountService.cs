@@ -31,9 +31,6 @@ public class AccountService : IAccountService
         }
     }
 
-
-
-
     public async Task<List<Category>> GetCategories(int userId)
     {
         var categories = new List<Category>();
@@ -188,6 +185,56 @@ public class AccountService : IAccountService
                 await command.ExecuteNonQueryAsync();
             }
         }
+    }
+
+    public async Task<List<TransactionData>> GetFilteredTransactions(int userId, DateTime? fromDate, DateTime? toDate, string? transactionType)
+    {
+        var transactionData = new List<TransactionData>();
+        using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+        {
+            var query = "SELECT TransactionDate, (SELECT Category.CategoryName FROM Category WHERE Category.CategoryCode = Transactions.CategoryCode) as CategoryCode, TransactionType, Description, Amount FROM Transactions WHERE UserId = @UserId";
+
+            if (fromDate.HasValue)
+                query +=" AND TransactionDate >= @FromDate";
+
+            if (toDate.HasValue)
+                query += " AND TransactionDate <= @ToDate";
+
+            if (!string.IsNullOrEmpty(transactionType))
+                query += " AND TransactionType = @TransactionType";
+
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserId", userId);
+
+                if (fromDate.HasValue)
+                    command.Parameters.AddWithValue("@FromDate", fromDate);
+
+                if (toDate.HasValue)
+                    command.Parameters.AddWithValue("@ToDate", toDate);
+
+                if (!string.IsNullOrEmpty(transactionType))
+                    command.Parameters.AddWithValue("@TransactionType", transactionType.ToLower());
+
+                connection.Open();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var transaction = new TransactionData
+                        {
+                            TransactionDate = reader.GetDateTime(0),
+                            CategoryCode = reader.GetString(1),
+                            TransactionType = reader.GetString(2),
+                            Description = reader.GetString(3),
+                            Amount = reader.GetDecimal(4)
+                        };
+                        transactionData.Add(transaction);
+                    }
+                }
+            }
+        }
+        return transactionData;
     }
 
 }

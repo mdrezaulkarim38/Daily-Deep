@@ -11,4 +11,5 @@ public interface IAccountService
     Task UpdateCategory(Category category);
     Task<bool> CanDeleteCategory(int categoryId, int userId);
     Task DeleteCategory(int id, int userId);
+    Task<List<TransactionData>> GetFilteredTransactions(int userId, DateTime? fromDate, DateTime? toDate, string? transactionType);
 }
