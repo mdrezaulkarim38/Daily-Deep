@@ -86,7 +86,7 @@ public class AccountController : Controller
         var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
         if (await _accountService.CanDeleteCategory(id, userId))
         {
-            await _accountService.DeleteCategory(id,userId);
+            await _accountService.DeleteCategory(id, userId);
             TempData["SuccessMessage"] = "Category delete successful!";
             return RedirectToAction("Category");
         }
@@ -154,6 +154,14 @@ public class AccountController : Controller
         var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
         var transactionData = await _accountService.GetTransactions(userId);
         return View(transactionData);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Report(DateTime? fromDate, DateTime? toDate, string? transactionType)
+    {
+        var userId = int.Parse(User.FindFirst("UserId")?.Value!);
+        var transactions = await _accountService.GetFilteredTransactions(userId, fromDate, toDate, transactionType);
+        return View(transactions);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
