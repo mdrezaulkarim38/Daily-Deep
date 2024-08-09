@@ -118,13 +118,6 @@
                     toastr.error("@TempData["ErrorMessage"]");
                 </text>
             }
-
-            @if (!ViewData.ModelState.IsValid)
-            {
-                <text>
-                    toastr.error("Invalid login attempt.");
-                </text>
-            }
         });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
