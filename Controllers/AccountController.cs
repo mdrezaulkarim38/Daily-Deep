@@ -156,11 +156,14 @@ public class AccountController : Controller
         return View(transactionData);
     }
 
-    [HttpPost]
+    [HttpPost("Report")]
     public async Task<IActionResult> Report(DateTime? fromDate, DateTime? toDate, string? transactionType)
     {
         var userId = int.Parse(User.FindFirst("UserId")?.Value!);
         var transactions = await _accountService.GetFilteredTransactions(userId, fromDate, toDate, transactionType);
+
+        ViewData["FromDate"] = fromDate?.ToString("yyyy-MM-dd");
+        ViewData["ToDate"] = toDate?.ToString("yyyy-MM-dd");
         return View(transactions);
     }
 

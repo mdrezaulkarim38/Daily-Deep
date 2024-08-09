@@ -203,7 +203,7 @@ public class AccountService : IAccountService
             if (!string.IsNullOrEmpty(transactionType))
                 query += " AND TransactionType = @TransactionType";
 
-            using (SQLiteCommand command = new SQLiteCommand(query.ToString(), connection))
+            using (SQLiteCommand command = new SQLiteCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserId", userId);
 
@@ -214,7 +214,7 @@ public class AccountService : IAccountService
                     command.Parameters.AddWithValue("@ToDate", toDate);
 
                 if (!string.IsNullOrEmpty(transactionType))
-                    command.Parameters.AddWithValue("@TransactionType", transactionType);
+                    command.Parameters.AddWithValue("@TransactionType", transactionType.ToLower());
 
                 connection.Open();
                 using (var reader = await command.ExecuteReaderAsync())

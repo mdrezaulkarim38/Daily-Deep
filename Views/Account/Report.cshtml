@@ -15,18 +15,19 @@
                     <div class="form-group mx-2 mb-2 col-md-3">
                         <label for="fromDate" class="sr-only">From Date</label>
                         <input type="date" class="form-control form-control-sm" name="fromDate"
-                            placeholder="From Date" />
+                            value="@ViewData["FromDate"]" />
                     </div>
                     <div class="form-group mx-2 mb-2 col-md-3">
                         <label for="toDate" class="sr-only">To Date</label>
-                        <input type="date" class="form-control form-control-sm" name="toDate" placeholder="To Date" />
+                        <input type="date" class="form-control form-control-sm" name="toDate"
+                            value="@ViewData["ToDate"]" />
                     </div>
                     <div class="form-group mx-2 mb-2 col-md-3">
                         <label for="transactionType" class="sr-only">Type</label>
                         <select name="transactionType" class="form-control form-control-sm">
                             <option value="">Select Type</option>
-                            <option value="Income">Income</option>
-                            <option value="Expense">Expense</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -86,3 +87,9 @@
         </table>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        
+    </script>
+}
