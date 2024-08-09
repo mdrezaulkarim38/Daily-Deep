@@ -46,8 +46,10 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             await _accountService.CreateCategory(category);
+            TempData["SuccessMessage"] = "New Category Create successful!";
             return RedirectToAction("Category");
         }
+        TempData["ErrorMessage"] = "New Category Create unsuccessful!. Try again";
         return RedirectToAction("Category");
     }
 
@@ -71,8 +73,10 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             await _accountService.UpdateCategory(category);
+            TempData["SuccessMessage"] = "Category Update successful!";
             return RedirectToAction("Category");
         }
+        TempData["ErrorMessage"] = "Category update unsuccessful!. Try again";
         return View(category);
     }
 
@@ -82,12 +86,12 @@ public class AccountController : Controller
         var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
         if (await _accountService.CanDeleteCategory(id, userId))
         {
-            await _accountService.DeleteCategory(id,userId);
+            await _accountService.DeleteCategory(id, userId);
+            TempData["SuccessMessage"] = "Category delete successful!";
             return RedirectToAction("Category");
         }
         else
         {
-            // Handle the case where the category cannot be deleted
             TempData["ErrorMessage"] = "Category cannot be deleted as it is associated with transactions.";
             return RedirectToAction("Category");
         }
@@ -132,13 +136,14 @@ public class AccountController : Controller
             };
 
             await _accountService.CreateTransaction(transactionData);
+            TempData["SuccessMessage"] = "New Transaction Created successful!";
             return RedirectToAction("Transaction");
         }
 
         var categories = await _accountService.GetCategories(Convert.ToInt32(User.FindFirst("UserId")?.Value));
         model.CategorySelectList = new SelectList(categories, "CategoryCode", "CategoryName");
         ViewData["selectList"] = model.CategorySelectList;
-
+        TempData["ErrorMessage"] = "New Transaction Created UnSuccessful!.";
         return View(model);
     }
 
@@ -149,6 +154,17 @@ public class AccountController : Controller
         var userId = Convert.ToInt32(User.FindFirst("UserId")?.Value);
         var transactionData = await _accountService.GetTransactions(userId);
         return View(transactionData);
+    }
+
+    [HttpPost("Report")]
+    public async Task<IActionResult> Report(DateTime? fromDate, DateTime? toDate, string? transactionType)
+    {
+        var userId = int.Parse(User.FindFirst("UserId")?.Value!);
+        var transactions = await _accountService.GetFilteredTransactions(userId, fromDate, toDate, transactionType);
+
+        ViewData["FromDate"] = fromDate?.ToString("yyyy-MM-dd");
+        ViewData["ToDate"] = toDate?.ToString("yyyy-MM-dd");
+        return View(transactions);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
