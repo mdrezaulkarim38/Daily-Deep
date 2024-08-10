@@ -20,7 +20,7 @@ public class AuthController : Controller
     [HttpGet("Login")]
     public IActionResult Login()
     {
-        if(User.FindFirst("FullName")?.Value != null)
+        if (User.FindFirst("FullName")?.Value != null)
         {
             return RedirectToAction("Index", "Home");
         }
@@ -43,16 +43,17 @@ public class AuthController : Controller
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                TempData["SuccessMessage"] = "Login successful!";
                 return RedirectToAction("Index", "Home");
             }
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         }
+        TempData["ErrorMessage"] = "Login Unsuccessful!.Try again";
         return View();
     }
     [HttpGet("Register")]
     public IActionResult Register()
     {
-        if(User.FindFirst("FullName")?.Value != null)
+        if (User.FindFirst("FullName")?.Value != null)
         {
             return RedirectToAction("Index", "Home");
         }
@@ -64,8 +65,10 @@ public class AuthController : Controller
         if (ModelState.IsValid)
         {
             await _authService.CreateUser(user);
+            TempData["SuccessMessage"] = "Registration successful! Please login.";
             return RedirectToAction("Login");
         }
+        TempData["SuccessMessage"] = "Registration Unsuccessful! Please Try again.";
         return View(user);
     }
 
@@ -73,6 +76,7 @@ public class AuthController : Controller
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        TempData["SuccessMessage"] = "Logout successful!";
         return RedirectToAction("Login");
     }
 
